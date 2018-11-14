@@ -1,0 +1,35 @@
+---
+version: '3.2'
+services:
+
+  wiki302:
+    image: mitcdh/alpine-nginx-redirect:latest
+    port:
+      - "80/tcp"
+    network:
+      - public
+    environment:
+      REDIRECT_URL: 'https://dallasmakerspace.org/wiki/JumpServerFAQ'
+      REDIRECT_CODE: 301
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 1
+      labels:
+        org.dallasmakerspace.schema.owner: "infrastructure@dallasmakerspace.org"
+        traefik.enabled: "true"
+        traefik.port: 80
+        traefik.docker.network: "public"
+        traefik.frontend.priority: "10"
+        traefik.frontend.entryPoints: "http, https"
+        traefik.frontend.rule: "Host:physical.dallasmakerspace.org"
+        orbiter: "true"
+        orbiter.up: "3"
+        orbiter.down: "1"
+
+networks:
+  public:
+    external:
+      name: public
+...
+# VIM: set sts=2 ts=2 et sw=2 ai:
