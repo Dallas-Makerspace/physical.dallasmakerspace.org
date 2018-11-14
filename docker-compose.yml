@@ -4,9 +4,9 @@ services:
 
   wiki302:
     image: mitcdh/alpine-nginx-redirect:latest
-    port:
+    ports:
       - "80/tcp"
-    network:
+    networks:
       - public
     environment:
       REDIRECT_URL: 'https://dallasmakerspace.org/wiki/JumpServerFAQ'
